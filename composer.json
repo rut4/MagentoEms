@@ -1,0 +1,26 @@
+{
+    "name": "oggetto/ems-shipping",
+    "type": "magento-module",
+    "license": "OSL-3.0",
+    "homepage": "https://github.com/rut4/MagentoEms",
+    "description": "Magento EMS Shipping Module",
+    "authors": [
+        {
+        	"name": "Eduard Paliy",
+        	"email": "epaliy@oggettoweb.com"
+        }
+    ],
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "extra": {
+        "map": [
+            ["app/etc/modules/Oggetto_Shipping.xml", "app/etc/modules/Oggetto_Shipping.xml"],
+            ["app/code/local/Oggetto/Shipping", "app/code/local/Oggetto/Shipping"],
+            ["app/locale/de_DE/Oggetto_Shipping.csv", "app/locale/de_DE/Oggetto_Shipping.csv"],
+            ["app/locale/en_US/Oggetto_Shipping.csv", "app/locale/en_US/Oggetto_Shipping.csv"],
+            ["app/locale/fr_FR/Oggetto_Shipping.csv", "app/locale/fr_FR/Oggetto_Shipping.csv"],
+            ["app/locale/ru_RU/Oggetto_Shipping.csv", "app/locale/ru_RU/Oggetto_Shipping.csv"]
+        ]
+    }
+}
