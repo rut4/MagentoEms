@@ -540,63 +540,41 @@ $regionTranslations = [
     ],
 ];
 
-foreach ($regions as $code => $name) {
-    Mage::getModel('directory/region')->setData([
-        'country_id' => 'RU',
-        'code' => $code,
-        'default_name' => $name
-    ])
-        ->save();
-}
+try {
+    foreach ($regions as $code => $name) {
+        Mage::getModel('directory/region')->setData([
+            'country_id' => 'RU',
+            'code' => $code,
+            'default_name' => $name
+        ])
+            ->save();
+    }
 
-/** @var array $regionCollection */
-$regionCollection = Mage::getResourceModel('directory/region_collection')->addCountryFilter('RU')->load()->getItems();
+    /** @var array $regionCollection */
+    $regionCollection = Mage::getResourceModel('directory/region_collection')->addCountryFilter('RU')->load()->getItems();
 
-$query = "INSERT INTO {$this->getTable('directory/country_region_name')} (locale, region_id, name) VALUES ";
+    $query = "INSERT INTO {$this->getTable('directory/country_region_name')} (locale, region_id, name) VALUES ";
 
-foreach ($regionCollection as $region) {
-    /** @var Mage_Directory_Model_Region $region */
+    foreach ($regionCollection as $region) {
+        /** @var Mage_Directory_Model_Region $region */
 
-    $code = $region->getCode();
-    $id = $region->getId();
-    $translations = $regionTranslations[$code];
-    foreach ($translations as $locale => $name) {
-        if ($locale != 'fr_FR') {
-            $query .= "('{$locale}', {$id}, '{$name}'), ";
+        $code = $region->getCode();
+        $id = $region->getId();
+        $translations = $regionTranslations[$code];
+        foreach ($translations as $locale => $name) {
+            if ($locale != 'fr_FR') {
+                $query .= "('{$locale}', {$id}, '{$name}'), ";
+            }
         }
     }
+
+    $query = rtrim($query, ', ') . ';';
+
+    $installer->startSetup();
+
+    $installer->run($query);
+
+    $installer->endSetup();
+} catch (Exception $e) {
+    Mage::logException($e);
 }
-
-$query = rtrim($query, ', ') . ';';
-
-$installer->startSetup();
-
-$installer->run($query);
-
-$installer->endSetup();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
